@@ -1,46 +1,116 @@
+Literature Review: Skin Conductivity and Pulse-Based Cognitive Load Estimation
+1. Galvanic Skin Response and Photoplethysmography for Stress Detection
+Reference: H. G. Le, T. D. Nguyen, et al., “Galvanic Skin Response and Photoplethysmography for Stress Detection,” Applied Sciences, vol. 14, no. 24, p. 11997, 2024. https://doi.org/10.3390/app142411997
+Objective:
+To investigate whether combining galvanic skin response (GSR, also known as skin conductance) and photoplethysmography (PPG, a method for pulse and heart rate variability measurement) signals from a wearable device improves stress detection accuracy, especially when the stress is triggered by a sudden, loud air raid siren, compared to using either GSR or PPG alone.
+Method:
+•	Researchers used a Shimmer3 GSR+ wearable sensor to collect both GSR and PPG data, simultaneously, from 37 healthy adults (aged 20–30) during a controlled experiment.
+•	The protocol:
+o	5 minutes baseline rest
+o	3 minutes “no-stress” phase (calm, quiet)
+o	3 minutes “stress” phase, with a 70 dB air raid siren played via headphones (not arithmetic tasks)
+o	3 minutes recovery
+•	Raw signals (skin resistance for GSR, pulse for PPG) were filtered, normalized, and processed to extract useful features.
+o	For GSR: Number of resistance peaks and average width of those peaks (activity of sweat glands related to stress).
+o	For PPG: Advanced heart rate variability (HRV) features (including time-domain and nonlinear complexity metrics).
+•	Machine learning models (k-Nearest Neighbors, Naive Bayes, Random Forest, and Support Vector Machine) were trained and tested to distinguish “stress” from “no-stress” phases, using either single-signal (only GSR or only PPG) or combined multi-signal approaches.
+Findings:
+•	The best-performing model was k-Nearest Neighbors, which reached 83%, using selected features from both HRV (PPG) and GSR.
+•	Using both signals together (GSR + HRV) improved classification accuracy compared to using either one alone, confirming that multi-signal fusion provides more reliable stress detection.
+•	GSR (skin resistance) captured sympathetic arousal response—how fast and how much skin conductance changes.
+•	HRV (from PPG) reflected complexity and adaptability in heart rate rhythms, indicating parasympathetic nervous system response.
+•	There were observable personal differences—some people’s signals returned quickly to baseline after stress (more resilient), while others showed slower or delayed recovery.
+Relevance to the Field:
+This paper’s approach demonstrates that low-cost wearable sensors can be used for effective, real-time stress detection in realistic, high-stress settings (e.g., exposure to sudden alarms/sirens), and that combining multiple physiological measurements with machine learning is superior to relying on only one signal.
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into the executable file.
+2. Prediction of Intrinsic and Extraneous Cognitive Load with Oculometric, HRV, and GSR Measures
+Reference: J. W. Li, P. M. Ho, et al., “Prediction of Intrinsic and Extraneous Cognitive Load with Oculometric, HRV, and GSR Measures,” Scientific Reports, vol. 15, 89336, 2025.  https://doi.org/10.1038/s41598-025-89336-y 
+Objective:
+To distinguish intrinsic vs. extraneous cognitive load using multimodal physiological data including heart-rate variability (HRV) and galvanic skin response (GSR).
+Method:
+Participants completed problem-solving tasks of varying difficulty while GSR, HRV, and eye-tracking metrics were recorded. Data were segmented and analyzed using both statistical features and deep learning (CNN-LSTM) to model temporal dynamics.
+Findings:
+HRV and GSR were the strongest predictors of cognitive load, contributing to classification accuracies above 85 %. Time-domain HRV features (SDNN, RMSSD) and GSR peaks reflected increasing sympathetic activation as task difficulty rose.
+Relevance to this project:
+This study validates the scientific link between cognitive load and physiological stress indicators, showing that simple, noninvasive measures like HRV and GSR can accurately track mental workload. The experimental design and signal-processing methods (feature extraction, normalization) can guide your own prototype testing and analysis.
 
-The source code of each library should be placed in a separate directory
-("lib/your_library_name/[Code]").
 
-For example, see the structure of the following example libraries `Foo` and `Bar`:
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional. for custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+3. “Toward Mental Effort Measurement Using Electrodermal Activity” (2023, Frontiers in Neuroscience)
+📍 Link: https://pmc.ncbi.nlm.nih.gov/articles/PMC9573480/
+Why it’s important:
+•	A systematic review summarizing over 100 papers using EDA for mental workload.
+•	Explains physiological mechanisms, signal decomposition, and feature selection (tonic vs phasic components).
+•	Identifies gaps in reproducibility and standardization — very useful for your literature review section.
+Takeaways:
+•	Provides theoretical foundation: how skin conductance changes under stress/cognitive load.
+•	Lists common preprocessing and normalization methods (useful for your analysis pipeline).
+•	You can cite it for background and motivation.
 
-Example contents of `src/main.c` using Foo and Bar:
-```
-#include <Foo.h>
-#include <Bar.h>
 
-int main (void)
-{
-  ...
-}
 
-```
 
-The PlatformIO Library Dependency Finder will find automatically dependent
-libraries by scanning project source files.
 
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+
+
+
+
+
+
+
+
+Preliminary Design, Estimated Timeline, Data Recording Plan, and Cost Estimate
+Project: Skin Conductivity and Pulse Sensor for Cognitive Load Estimation (extension of idea #25):
+Goal:
+Build a simple system that can tell if a person’s mental workload or stress level is high or low by using two body signals:
+•	Skin conductivity (GSR) – how much the skin conducts electricity (changes with sweat/stress).
+•	Pulse rate (PPG) – how fast and how steady the heart is beating.
+How It Works:
+1.	Two small sensors measure the signals:
+o	GSR Sensor: Attached to two fingers to measure electrical changes on the skin.
+o	PPG Sensor: Placed on a fingertip to measure pulse using a light sensor.
+2.	These sensors connect to an Arduino. The Arduino reads the values and sends them to a computer.
+3.	The data is plotted to see patterns - higher skin conductivity and faster pulse mean higher mental stress.
+4.	In the future, a basic code can classify “low,” “medium,” or “high” cognitive load.
+Basic Circuit:
+•	GSR part: Resistor divider + analog input pin.
+•	PPG part: Ready-made module (like MAX30102) connected via I²C.
+•	Both sensors powered by 5V from Arduino.
+
+2. Estimated Timeline
+Week	Task	Goal
+Oct 15–21	Gather parts and set up Arduino + sensors	Verify each sensor gives stable readings
+Oct 22–28	Record test data (rest vs. simple math tasks)	See signal difference in calm vs. stress
+Oct 29–Nov 4	Filter noisy signals in Arduino code	Get smooth GSR and pulse readings
+Nov 5–18	Collect more data from 3–4 people	Build a small dataset for comparison
+Nov 19–Dec 2	Plot data and make threshold logic	Identify what counts as “high load”
+Dec 3–9	Final testing and report	Prepare graphs and discuss results
+
+3. Data Recording Plan
+How Data Will Be Collected:
+1.	Connect both sensors to Arduino.
+2.	Use the Serial Monitor or Excel CSV to save readings every second.
+3.	Do three short sessions per person:
+o	Resting (2 min) – relaxed breathing.
+o	Easy Task (2 min) – simple math or reading.
+o	Hard Task (2 min) – quick mental arithmetic.
+4.	Between each task, take 1-minute rest.
+Data Saved Example:
+Time (s)	GSR (V)	PPG (raw)	Heart Rate (bpm)	Task Type
+0	0.35	512	72	Rest
+20	0.50	610	89	Hard Task
+Goal:
+Look for trends - GSR and heart rate should rise during harder mental tasks.
+4. Cost Estimate (Under $50 total)
+Item	Description	Qty	Approx. Cost
+Arduino Uno or Nano	Microcontroller	1	$10
+MAX30102 PPG Sensor	Measures pulse and heart rate	1	$10
+GSR Sensor Kit (or DIY with resistors)	Measures skin conductivity	1	$8
+Breadboard + Jumper Wires	For circuit connection	1	$5
+Resistors + USB cable + clips	Basic parts for testing	1 set	$5
+Estimated Total:			$38–$45
+5. Simple Notes
+•	Keep all connections short and secure to reduce noise.
+•	Try to collect data at the same time of day to keep conditions similar.
+•	Avoid moving hand while recording, since that affects the readings.
+•	Use Excel to make simple plots of GSR and pulse vs. time.

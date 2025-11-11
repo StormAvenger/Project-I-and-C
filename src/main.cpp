@@ -6,3 +6,4 @@
 #define NUM_SAMPLES 10      // Simple averaging for less noise
 
 //Temp
+HSPID6_IN_IDX
